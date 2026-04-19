@@ -1,6 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useState } from 'react';// Importa o hook useState para controlar estados
 import api from '../services/api'; // Importa a configuração da API (provavelmente axios configurado)
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function CadastroScreen() {
 
@@ -11,24 +12,25 @@ export default function CadastroScreen() {
 
   // Função assíncrona chamada ao clicar no botão
   async function handleCadastro() {
-    try {
-      // Faz uma requisição POST para o backend enviando os dados do usuário
-      const response = await api.post('/registrar', { 
-        nome: nome,       
-        email: email,      
-        password: senha  // envia a senha (diferente do back)
-      });
+  try {
+    const response = await api.post('/registrar', { // manda os dados do usuário pra API
+      nome,
+      email,
+      password: senha
+    });
 
-      // Mostra no console a resposta da API
-      console.log(response.data);
-      alert('Conta criada com sucesso!');
+    const token = response.data.token; // pega o token que a API devolveu
+    await AsyncStorage.setItem('token', token); // salva o token no celular/app
 
-    } catch (error) {
-    console.log('Erro:', error.response?.data || error.message);
+    console.log('Token salvo:', token);
 
-    alert('Cadastro enviado');
+    alert('Cadastro realizado!');
+
+  } catch (error) {
+    console.log('ERRO BACK:', error.response?.data);
+    alert('Cadastro enviado (modo teste)');
   }
-  }
+}
 
   return (
     <View style={styles.container}>
