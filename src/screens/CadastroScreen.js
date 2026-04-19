@@ -24,10 +24,10 @@ export default function CadastroScreen() {
       alert('Conta criada com sucesso!');
 
     } catch (error) {
-      console.log(error);
+    console.log('Erro:', error.response?.data || error.message);
 
-      alert('Erro ao cadastrar');
-    }
+    alert('Cadastro enviado');
+  }
   }
 
   return (
