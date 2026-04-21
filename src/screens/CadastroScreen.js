@@ -27,9 +27,9 @@ export default function CadastroScreen() {
     alert('Cadastro realizado!');
 
   } catch (error) {
-    console.log('ERRO BACK:', error.response?.data);
-    alert('Cadastro enviado (modo teste)');
-  }
+  console.log('ERRO COMPLETO:', JSON.stringify(error.response?.data, null, 2));
+  alert('Erro ao cadastrar');
+}
 }
 
   return (
